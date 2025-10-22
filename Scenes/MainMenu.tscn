@@ -1,0 +1,122 @@
+[gd_scene load_steps=6 format=3 uid="uid://44wb56ghurrd"]
+
+[ext_resource type="FontFile" uid="uid://bp54llop4vyos" path="res://font/Fonts/Kenney Blocks.ttf" id="2_8saeu"]
+
+[sub_resource type="GDScript" id="GDScript_df05h"]
+script/source = "extends Control
+
+func _on_start_pressed() -> void:
+	GlobalManager.reset_game()
+	get_tree().change_scene_to_file(\"res://Scenes/Level 1.tscn\")
+
+func _on_story_pressed() -> void:
+	get_tree().change_scene_to_file(\"res://Scenes/Storyline.tscn\")
+
+func _on_exit_pressed() -> void:
+	get_tree().quit()
+"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tt5f1"]
+load_path = "res://.godot/imported/StartMenu.png-30831b2f14ffe1d17f264b5fec71dc4c.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8saeu"]
+atlas = SubResource("CompressedTexture2D_tt5f1")
+region = Rect2(1426, 463, 586, 194)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ghw46"]
+atlas = SubResource("CompressedTexture2D_tt5f1")
+region = Rect2(1426, 713, 587, 193)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_df05h")
+
+[node name="Heading" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -490.0
+offset_top = -268.0
+offset_right = 475.0
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_8saeu")
+theme_override_font_sizes/font_size = 120
+text = "Blitz"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -560.0
+offset_top = -52.0
+offset_right = 1298.0
+offset_bottom = 142.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Start" type="TextureButton" parent="HBoxContainer"]
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_8saeu")
+texture_hover = SubResource("AtlasTexture_ghw46")
+
+[node name="Label" type="Label" parent="HBoxContainer/Start"]
+layout_mode = 0
+offset_right = 590.0
+offset_bottom = 181.0
+theme_override_fonts/font = ExtResource("2_8saeu")
+theme_override_font_sizes/font_size = 80
+text = "Start"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -559.0
+offset_top = 76.0
+offset_right = 1299.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Exit" type="TextureButton" parent="HBoxContainer2"]
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_8saeu")
+texture_hover = SubResource("AtlasTexture_ghw46")
+
+[node name="Label" type="Label" parent="HBoxContainer2/Exit"]
+layout_mode = 0
+offset_right = 590.0
+offset_bottom = 181.0
+theme_override_fonts/font = ExtResource("2_8saeu")
+theme_override_font_sizes/font_size = 80
+text = "Exit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="HBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Exit" to="." method="_on_exit_pressed"]

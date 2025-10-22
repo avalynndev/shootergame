@@ -1,0 +1,93 @@
+[gd_scene load_steps=11 format=3 uid="uid://bce2w2ed0s7hq"]
+
+[ext_resource type="Script" uid="uid://cjlmdrpg363p0" path="res://Scripts/player_1.gd" id="1_n5fpy"]
+[ext_resource type="PackedScene" uid="uid://bnxjlc4wjt34y" path="res://Scenes/bullet_player.tscn" id="2_dvont"]
+[ext_resource type="Texture2D" uid="uid://c1abxdphtarcv" path="res://PNG/Weapons/Tilemap/tilemap_packed.png" id="3_2ale3"]
+[ext_resource type="PackedScene" uid="uid://c7mlgwepagcrh" path="res://Scenes/lives.tscn" id="4_1yta1"]
+[ext_resource type="Texture2D" uid="uid://rmvyclqqbc6v" path="res://PNG/Players/Tilemap/tilemap_packed.png" id="4_i047d"]
+[ext_resource type="AudioStream" uid="uid://52st8muppevs" path="res://sounds/Shoot.wav" id="5_2ale3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dvont"]
+radius = 16.0
+height = 36.0
+
+[sub_resource type="Animation" id="Animation_1yta1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_dvont"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2ale3"]
+_data = {
+&"RESET": SubResource("Animation_1yta1"),
+&"death": SubResource("Animation_dvont")
+}
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_n5fpy")
+BULLET = ExtResource("2_dvont")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(4.76837e-07, 9.53674e-07)
+scale = Vector2(1.52174, 1.45833)
+texture = ExtResource("4_i047d")
+region_enabled = true
+region_rect = Rect2(48.3621, 1.83543, 23.4628, 24.3318)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(12, 5)
+texture = ExtResource("3_2ale3")
+region_enabled = true
+region_rect = Rect2(119.752, 3.69193, 25.4905, 16.2502)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("CapsuleShape2D_dvont")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = 0
+limit_top = 0
+limit_right = 2435
+limit_bottom = 1340
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_2ale3")
+}
+
+[node name="Health" type="CanvasLayer" parent="."]
+
+[node name="Lives" parent="Health" instance=ExtResource("4_1yta1")]
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_2ale3")
+
+[connection signal="player_death" from="." to="." method="_on_player_death"]
